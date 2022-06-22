@@ -1,0 +1,3 @@
+#+title: midicrypt
+
+Encrypt and decrypt files using your MIDI keyboard.
