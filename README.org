@@ -23,3 +23,8 @@ SUBCOMMANDS:
     help          Print this message or the help of the given subcommand(s)
     list-ports    Lists available MIDI ports
 #+end_src
+
+To encrypt a file, using a given port:
+#+begin_src sh
+midicrypt encrypt --port "Impact LX61+:Impact LX61+ MIDI1 28:0" in.txt out
+#+end_src
