@@ -45,7 +45,8 @@ pub fn read_midi_input_from_port(in_port: &MidiInputPort) -> Vec<u8> {
             "midir-read-input",
             move |_stamp, message, log| {
                 print!("♪");
-                let removed = message.to_vec().pop();
+                let mut removed = message.to_vec();
+                removed.pop();
                 log.extend(removed);
             },
             messages,
