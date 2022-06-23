@@ -19,7 +19,8 @@ pub fn create_midi_input() -> MidiInput {
     return midi_input;
 }
 
-pub fn get_input_port_by_name(name: &str, midi_input: &mut MidiInput) -> MidiInputPort {
+pub fn get_input_port_by_name(name: &str) -> MidiInputPort {
+    let midi_input = MidiInput::new("midicrypt_input").unwrap();
     let in_ports = midi_input.ports();
 
     for port in in_ports {
@@ -36,14 +37,15 @@ pub fn read_midi_input_from_port(in_port: &MidiInputPort) -> Vec<u8> {
     let mut cli_input = String::new();
     let messages = Vec::new();
 
+    println!("Input Melody (Press Enter when finished)");
+
     let _conn_in = midi_input
         .connect(
             in_port,
             "midir-read-input",
-            move |stamp, message, log| {
-                println!("{}: {:?} (len = {})", stamp, message, message.len());
-                let mut removed = message.to_vec();
-                removed.pop();
+            move |_stamp, message, log| {
+                print!("♪");
+                let removed = message.to_vec().pop();
                 log.extend(removed);
             },
             messages,
@@ -56,6 +58,5 @@ pub fn read_midi_input_from_port(in_port: &MidiInputPort) -> Vec<u8> {
     let (_, messages) = _conn_in.close();
     println!("Closing connection");
 
-    println!("{:?}", messages);
     return messages;
 }

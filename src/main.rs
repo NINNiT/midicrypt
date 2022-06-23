@@ -6,11 +6,10 @@ mod crypto;
 mod midi;
 
 fn main() {
-    // let cli = CliArgs::parse();
     let matches = Command::new("midicrypt")
         .version("0.1.0")
         .author("NINNiT")
-        .about("Encrypts and Decrypts Files using MIDI")
+        .about("Encrypts and Decrypts Files using MIDI input")
         .subcommand(
             Command::new("encrypt")
                 .about("Encrypts a file")
@@ -68,13 +67,7 @@ fn main() {
             let output_path = Path::new(sub_matches.value_of("OUTPUT").unwrap());
             let port = sub_matches.value_of("PORT").unwrap();
 
-            let mut midi_input = midi::create_midi_input();
-
-            let port = midi::get_input_port_by_name(
-                "Impact LX61+:Impact LX61+ MIDI1 28:0",
-                &mut midi_input,
-            );
-
+            let port = midi::get_input_port_by_name(port);
             let bytes = midi::read_midi_input_from_port(&port);
             let hash = crypto::hash_bytes_sha256(bytes);
             crypto::encrypt_file(input_path, output_path, hash).unwrap();
@@ -84,13 +77,7 @@ fn main() {
             let output_path = Path::new(sub_matches.value_of("OUTPUT").unwrap());
             let port = sub_matches.value_of("PORT").unwrap();
 
-            let mut midi_input = midi::create_midi_input();
-
-            let port = midi::get_input_port_by_name(
-                "Impact LX61+:Impact LX61+ MIDI1 28:0",
-                &mut midi_input,
-            );
-
+            let port = midi::get_input_port_by_name(port);
             let bytes = midi::read_midi_input_from_port(&port);
             let hash = crypto::hash_bytes_sha256(bytes);
             crypto::decrypt_file(input_path, output_path, hash).unwrap();

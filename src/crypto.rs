@@ -4,14 +4,10 @@ use std::{
     path::Path,
 };
 
-use orion::{
-    hazardous::hash::sha2::sha256::{Digest, Sha256},
-    pwhash::{self, Password, PasswordHash},
-};
+use orion::hazardous::hash::sha2::sha256::Sha256;
 
 pub fn hash_bytes_sha256(message: Vec<u8>) -> Vec<u8> {
     let hash = Sha256::digest(&message).unwrap().as_ref().to_vec();
-    println!("{:?}", hash);
     hash
 }
 
