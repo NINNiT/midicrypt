@@ -1,7 +1,6 @@
 use clap::{Arg, Command};
 use std::path::Path;
 
-mod cli;
 mod crypto;
 mod midi;
 
