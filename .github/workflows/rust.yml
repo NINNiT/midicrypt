@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Dependencies
+      run:  sudo apt -y install librust-alsa-sys-dev pkg-config
     - name: Build
       run: cargo build --verbose
     - name: Run tests
