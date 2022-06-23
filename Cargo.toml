@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 clap = {version = "3.2.6", features = ["color", "suggestions", "wrap_help", "derive"]}
 midir = "0.8.0"
+orion = "0.17.1"

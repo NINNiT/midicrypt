@@ -1,10 +1,8 @@
+use clap::{Arg, Command};
 use std::path::Path;
 
-use clap::{Arg, Command, Parser};
-
-use crate::{cli::CliArgs, midi::read_available_ports};
-
 mod cli;
+mod crypto;
 mod midi;
 
 fn main() {
@@ -57,6 +55,7 @@ fn main() {
                         .short('p')
                         .long("port")
                         .help("The MIDI port to use")
+                        .takes_value(true)
                         .required(true),
                 ),
         )
@@ -68,14 +67,38 @@ fn main() {
             let input_path = Path::new(sub_matches.value_of("INPUT").unwrap());
             let output_path = Path::new(sub_matches.value_of("OUTPUT").unwrap());
             let port = sub_matches.value_of("PORT").unwrap();
+
+            let mut midi_input = midi::create_midi_input();
+
+            let port = midi::get_input_port_by_name(
+                "Impact LX61+:Impact LX61+ MIDI1 28:0",
+                &mut midi_input,
+            );
+
+            let bytes = midi::read_midi_input_from_port(&port);
+            let hash = crypto::hash_bytes_sha256(bytes);
+            crypto::encrypt_file(input_path, output_path, hash).unwrap();
         }
         Some(("decrypt", sub_matches)) => {
             let input_path = Path::new(sub_matches.value_of("INPUT").unwrap());
             let output_path = Path::new(sub_matches.value_of("OUTPUT").unwrap());
             let port = sub_matches.value_of("PORT").unwrap();
+
+            let mut midi_input = midi::create_midi_input();
+
+            let port = midi::get_input_port_by_name(
+                "Impact LX61+:Impact LX61+ MIDI1 28:0",
+                &mut midi_input,
+            );
+
+            let bytes = midi::read_midi_input_from_port(&port);
+            let hash = crypto::hash_bytes_sha256(bytes);
+            crypto::decrypt_file(input_path, output_path, hash).unwrap();
         }
         Some(("list-ports", _)) => {
-            let ports = read_available_ports();
+            let ports = midi::read_available_port_names();
+
+            // print port_name to stdout
             for port in ports {
                 println!("{}", port);
             }
