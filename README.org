@@ -1,3 +1,25 @@
 #+title: midicrypt
+#+author: NINNiT
 
-Encrypt and decrypt files using your MIDI keyboard.
+Encrypt and decrypt files by playing melodies on your MIDI keyboard.
+Written in Rust.
+
+#+begin_src sh
+❯ ./midicrypt -h
+midicrypt 0.1.0
+NINNiT
+Encrypts and Decrypts Files using MIDI input
+
+USAGE:
+    midicrypt [SUBCOMMAND]
+
+OPTIONS:
+    -h, --help       Print help information
+    -V, --version    Print version information
+
+SUBCOMMANDS:
+    decrypt       Decrypts a file
+    encrypt       Encrypts a file
+    help          Print this message or the help of the given subcommand(s)
+    list-ports    Lists available MIDI ports
+#+end_src
