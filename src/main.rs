@@ -68,8 +68,8 @@ fn main() {
 
             let port = midi::get_input_port_by_name(port);
             let bytes = midi::read_midi_input_from_port(&port);
-            let hash = crypto::hash_bytes_sha256(bytes);
-            crypto::encrypt_file(input_path, output_path, hash).unwrap();
+            let secret_key = crypto::kdf_argon2(bytes);
+            crypto::encrypt_file(input_path, output_path, &secret_key).unwrap();
         }
         Some(("decrypt", sub_matches)) => {
             let input_path = Path::new(sub_matches.value_of("INPUT").unwrap());
@@ -78,8 +78,8 @@ fn main() {
 
             let port = midi::get_input_port_by_name(port);
             let bytes = midi::read_midi_input_from_port(&port);
-            let hash = crypto::hash_bytes_sha256(bytes);
-            crypto::decrypt_file(input_path, output_path, hash).unwrap();
+            let secret_key = crypto::kdf_argon2(bytes);
+            crypto::decrypt_file(input_path, output_path, &secret_key).unwrap();
         }
         Some(("list-ports", _)) => {
             let ports = midi::read_available_port_names();
