@@ -1,7 +1,12 @@
 [package]
 name = "midicrypt"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
+authors = ["NINNiT <soelder@hotmail.com>"]
+license = "GPLv3"
+description = "Encrypt and decrypt files by playing melodies on your MIDI keyboard"
+readme = "README.org"
+repository = "https://github.com/NINNiT/midicrypt"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
