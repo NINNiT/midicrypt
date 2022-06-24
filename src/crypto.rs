@@ -26,6 +26,11 @@ pub fn encrypt_file(
     let mut ciphertext = orion::aead::seal(&cipher, &contents.as_bytes()).unwrap();
     file.write_all(&mut ciphertext)?;
 
+    println!(
+        "Encrypted input file '{}' to output file '{}'",
+        input_file.display(),
+        output_file.display()
+    );
     Ok(())
 }
 
@@ -43,5 +48,10 @@ pub fn decrypt_file(
     let mut plaintext = orion::aead::open(&cipher, &ciphertext).unwrap();
     file.write_all(&mut plaintext)?;
 
+    println!(
+        "Decrypted input file '{}' to output file '{}'",
+        input_file.display(),
+        output_file.display()
+    );
     Ok(())
 }

@@ -44,7 +44,6 @@ pub fn read_midi_input_from_port(in_port: &MidiInputPort) -> Vec<u8> {
             in_port,
             "midir-read-input",
             move |_stamp, message, log| {
-                print!("♪");
                 let mut removed = message.to_vec();
                 removed.pop();
                 log.extend(removed);
@@ -57,7 +56,7 @@ pub fn read_midi_input_from_port(in_port: &MidiInputPort) -> Vec<u8> {
     stdin().read_line(&mut cli_input).unwrap();
 
     let (_, messages) = _conn_in.close();
-    println!("Closing connection");
+    println!("Closing MIDI connection");
 
     return messages;
 }
